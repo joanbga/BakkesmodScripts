@@ -294,47 +294,6 @@ if (Test-Path $dllPath) {
     Write-Host " - plugins/$projectName.dll (not found in source plugins folder)" -ForegroundColor Red
 }
 
-# Copy all contents from the plugins folder to source/plugins
-# Excluding .exp, .lib, and .pdb files
-if (Test-Path "$solutionDir\plugins") {
-    # Create source/plugins directory
-    New-Item -ItemType Directory -Path "$tempDir\source\plugins" -Force | Out-Null
-    
-    # Get all files from plugins directory
-    $pluginFiles = Get-ChildItem -Path "$solutionDir\plugins\*" -Recurse
-    
-    foreach ($file in $pluginFiles) {
-        # Skip .exp, .lib, and .pdb files
-        if ($file.Extension -notin @(".exp", ".lib", ".pdb")) {
-            # Preserve the relative path
-            $relativePath = $file.FullName.Substring("$solutionDir\plugins\".Length)
-            $destinationPath = Join-Path -Path "$tempDir\source\plugins" -ChildPath $relativePath
-            
-            # Ensure destination directory exists
-            $destinationDir = Split-Path -Path $destinationPath -Parent
-            if (-not (Test-Path $destinationDir) -and -not $file.PSIsContainer) {
-                New-Item -ItemType Directory -Path $destinationDir -Force | Out-Null
-            }
-            
-            # Copy the file or directory
-            if ($file.PSIsContainer) {
-                # It's a directory
-                if (-not (Test-Path $destinationPath)) {
-                    New-Item -ItemType Directory -Path $destinationPath -Force | Out-Null
-                }
-            } else {
-                # It's a file
-                Copy-Item -Path $file.FullName -Destination $destinationPath -Force
-                Write-Host " - source/plugins/$relativePath" -ForegroundColor Green
-            }
-        } else {
-            Write-Host " - Skipping $($file.Name) (debug/export file)" -ForegroundColor Yellow
-        }
-    }
-} else {
-    Write-Host " - source/plugins (source folder not found)" -ForegroundColor Red
-}
-
 # Function to copy folders if they exist
 function Copy-FolderIfExists {
     param (
