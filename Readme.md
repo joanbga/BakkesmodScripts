@@ -17,7 +17,7 @@ A PowerShell script that automatically creates a compliant ZIP package for Bakke
 
 [Learn more about the CreateSourceZipScript →](./CreateSourceZipScript)
 
-### [CreateInstallScript](./CreateInstallScript)
+### [CreateInstallScript](./CreateInstallZipScript)
 
 A PowerShell script that generates installation ZIP packages for end users of your BakkesMod plugins. The script extracts version information from your code and packages only the files needed for installation.
 
@@ -28,7 +28,7 @@ A PowerShell script that generates installation ZIP packages for end users of yo
 - Includes only required files (DLL, settings, etc.)
 - Versioned output filenames for easier distribution
 
-[Learn more about the CreateInstallScript →](./CreateInstallScript)
+[Learn more about the CreateInstallScript →](./CreateInstallZipScript)
 
 ## Community & Support
 
